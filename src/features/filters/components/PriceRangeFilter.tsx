@@ -1,5 +1,3 @@
-// min max price input
-
 import { SquareChevronRight } from "lucide-react";
 import { useState } from "react";
 interface PriceRangeFilterProps {
