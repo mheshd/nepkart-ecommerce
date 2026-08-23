@@ -1,5 +1,14 @@
+import { useNavigate } from "react-router-dom";
 const Logo = () => {
-  return <img src={"/public/logo.png"} alt="Nepcart" className="w-15" />;
+  const navigate = useNavigate();
+  return (
+    <img
+      src={"/public/logo.png"}
+      alt="Nepcart"
+      className="w-15 cursor-pointer  "
+      onClick={() => navigate("/")}
+    />
+  );
 };
 
 export default Logo;

@@ -1,17 +1,13 @@
-import { products } from "./data/products";
+import AppRoutes from "./routes/AppRoutes";
 
 const App = () => {
   return (
     <div>
-      {" "}
-      <h1 className=" text-amber-300">e-commarece</h1>
-      {products.map((product) => (
-        <div>
-          <h2>{product.name}</h2>
-        </div>
-      ))}
+      <AppRoutes />
     </div>
   );
 };
 
 export default App;
+
+// wrap the app with cartPrivider , later with authprovider routs
