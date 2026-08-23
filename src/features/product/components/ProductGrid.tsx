@@ -8,10 +8,10 @@ interface ProductGridProps {
 
 const ProductGrid = ({ products }: ProductGridProps) => {
   if (products.length === 0) {
-    return <p>No products found</p>;
+    return <p className="text-gray-500 text-center py-10">No products found</p>;
   }
   return (
-    <div className=" grid grid-cols-5 gap-3 p-5">
+    <div className=" grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4  lg:grid-cols-5 gap-3 p-4">
       {products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
