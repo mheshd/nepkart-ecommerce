@@ -7,12 +7,14 @@ interface PriceRangeFilterProps {
 
 const PriceRangeFilter = ({ priceRange, onApply }: PriceRangeFilterProps) => {
   const [minInput, setMinInput] = useState(String(priceRange[0]));
-  const [maxInput, setMaxInput] = useState(String(priceRange[1]));
+  const [maxInput, setMaxInput] = useState(
+    priceRange[1] === Infinity ? "" : String(priceRange[1]),
+  );
   const [error, setError] = useState<string | null>(null);
 
   function handleApply() {
     const min = Number(minInput);
-    const max = Number(maxInput);
+    const max = maxInput.trim() === "" ? Infinity : Number(maxInput);
 
     if (isNaN(min) || isNaN(max)) {
       setError("please enter a valid numbers");
