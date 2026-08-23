@@ -10,8 +10,16 @@ import {
 const Homepage = () => {
   const { loading, products } = useProducts();
 
+  if (loading) {
+    return (
+      <div className="w-full max-w-7xl mx-auto py-8 text-center text-gray-500">
+        Loading...
+      </div>
+    );
+  }
+
   return (
-    <div className=" w-full max-w-7xl mx-auto py-8">
+    <div className=" w-full max-w-7xl mx-auto py-8 space-y-10">
       <CategoryGrid categories={getCategoryDisplays()} />
       <BrandGrid brands={getBrandDisplay()} />
       <ProductGrid products={products} />
