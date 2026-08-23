@@ -3,3 +3,8 @@
 body {
   background-color: #f5f5f5;
 }
+
+@theme {
+  --font-heading: "Poppins", sans-serif;
+  --font-body: "Inter", sans-serif;
+}
