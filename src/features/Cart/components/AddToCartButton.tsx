@@ -34,10 +34,9 @@ const AddToCartButton = ({
   return (
     <div>
       <Button
-        variant="accent"
         onClick={handleClick}
         disabled={!canAdd}
-        className=" px-6 py-2 font-medium   disabled:opacity-40"
+        className=" px-6 py-2 font-medium bg-[#F85606] text-white hover:bg-[#e04d04]  disabled:opacity-40"
       >
         Add to cart
       </Button>
