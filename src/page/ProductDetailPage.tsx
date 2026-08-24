@@ -54,9 +54,12 @@ const ProductDetailPage = () => {
   }
 
   return (
-    <main className="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-2 gap-10">
+    <main
+      className="max-w-6xl mx-auto px-4 py-5  grid grid-cols-1 md:grid-cols-2 gap-10 bg-gray-50 
+       rounded-lg "
+    >
       <ProductGallery images={product.images} name={product.name} />
-      <div>
+      <div className=" ">
         <ProductInfo product={product} />
         {needSize && (
           <div className="mt-4">
@@ -99,22 +102,32 @@ const ProductDetailPage = () => {
             </div>
           </div>
         )}
+        {/* quantity */}
         <div className="flex items-center gap-3 mt-4">
-          <p className="text-sm font-medium">Quantity</p>
-          <div className="flex items-center gap-2  border rounded-md">
+          <p className="font-body text-sm font-medium text-gray-700">
+            Quantity
+          </p>
+          <div className="flex items-center border border-gray-100 rounded-md  overflow-hidden">
             <button
               type="button"
               onClick={decreaseQuantity}
               disabled={quantity <= 1}
               aria-label="Decrease quantity"
+              className="w-9 h-9 flex items-center justify-center text-lg text-gray-600 hover:bg-gray-50 active:bg-gray-100 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
             >
-              −
+              -
             </button>
-            <span aria-live="polite">{quantity}</span>
+            <span
+              aria-live="polite"
+              className="w-10 text-center text-sm font-semibold text-gray-800 border-x border-gray-200"
+            >
+              {quantity}
+            </span>
             <button
               type="button"
               onClick={increaseQuantity}
               aria-label="Increase quantity"
+              className="w-9 h-9 flex items-center justify-center text-lg text-gray-600 hover:bg-gray-50 active:bg-gray-100 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
             >
               +
             </button>
@@ -133,7 +146,7 @@ const ProductDetailPage = () => {
             type="button"
             onClick={handleBuyNow}
             disabled={!canBuy}
-            className=" px-6 py-2 font-medium  disabled:opacity-40"
+            className=" px-6 py-2 font-medium bg-[#26ABD4]  disabled:opacity-40"
           >
             Buy now
           </Button>
