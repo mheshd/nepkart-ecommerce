@@ -15,7 +15,7 @@ const Navbar = () => {
       <div className=" flex items-center  justify-between gap-5 px-5 py-1   max-w-6xl mx-auto ">
         <div className=" hidden sm:flex gap-10 items-center ">
           <Logo />
-          <button className="hidden sm:inline">categories</button>
+          <button className="hidden sm:inline  font-body">categories</button>
         </div>
 
         <SearchBar />
