@@ -5,7 +5,7 @@ interface inputProps extends InputHTMLAttributes<HTMLInputElement> {
   varient?: "primary";
 }
 const varients = {
-  primary: "border border-gray-300 px-4 py-3 ",
+  primary: "border border-gray-300 px-4 py-2 ",
 };
 
 const Input = ({
