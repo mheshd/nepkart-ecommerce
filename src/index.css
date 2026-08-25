@@ -8,3 +8,11 @@ body {
   --font-heading: "Poppins", sans-serif;
   --font-body: "Inter", sans-serif;
 }
+
+/* remove the input innner outer spinner  btn  */
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
