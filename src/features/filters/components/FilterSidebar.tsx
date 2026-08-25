@@ -1,7 +1,3 @@
-// 	Composes all the individual filter inputs together
-// why
-// One container ProductListingPage renders, instead of 5 separate ones
-
 import BrandFilter from "./BrandFilter";
 import PriceRangeFilter from "./PriceRangeFilter";
 import RatingFilter from "./RatingFilter";
@@ -31,7 +27,7 @@ const FilterSidebar = ({
   setMinRating,
 }: FilterSidebarProps) => {
   return (
-    <div className="w-40">
+    <div className="flex flex-col gap-2">
       <BrandFilter
         brandlist={brands}
         selectedBrands={selectedBrands}
