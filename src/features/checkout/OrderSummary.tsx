@@ -1,3 +1,4 @@
+import Button from "../../components/ui/Button";
 import type { CartItem } from "../../types/cartType";
 import { formatCurrency } from "../../utils/formatCurrency";
 
@@ -14,10 +15,10 @@ const OrderSummary = ({ items }: OrderSummaryProps) => {
   );
   const total = subtotal + SHIPPING_FEE;
   return (
-    <div className="border rounded-md p-4 h-fit  py-26">
-      <h2 className="font-semibold mb-3">Order Summary</h2>
+    <div className=" bg-white shadow-md rounded-sm px-8 sm:px-6 h-fit  sm:py-8 py-6 ">
+      <h2 className="font-semibold mb-5">Order Summary</h2>
 
-      <div className="space-y-3 mb-4">
+      <div className="  mb-4 px-4 sm:px-2">
         {items.map((item) => (
           <div
             key={`${item.productId}-${item.size}-${item.color}`}
@@ -42,7 +43,7 @@ const OrderSummary = ({ items }: OrderSummaryProps) => {
         ))}
       </div>
 
-      <div className="border-t pt-3 space-y-2 text-sm">
+      <div className="border-t border-gray-300 pt-3 space-y-3 text-sm px-4 sm:px-2">
         <div className="flex justify-between">
           <span>Subtotal</span>
           <span>{formatCurrency(subtotal)}</span>
@@ -51,10 +52,17 @@ const OrderSummary = ({ items }: OrderSummaryProps) => {
           <span>Shipping Fee</span>
           <span>{formatCurrency(SHIPPING_FEE)}</span>
         </div>
-        <div className="flex justify-between font-semibold border-t pt-2">
-          <span>Total</span>
-          <span>{formatCurrency(total)}</span>
+
+        <div className="flex justify-between font-semibold border-t border-gray-300 pt-3 px-4 sm:px-2">
+          <span className="font-body ">Total</span>
+          <span className="text-[#F57224]">{formatCurrency(total)}</span>
         </div>
+        <Button
+          type="submit"
+          className=" w-full  px-8 py-2.5 font-medium bg-[#F57224]"
+        >
+          Place Order
+        </Button>
       </div>
     </div>
   );
