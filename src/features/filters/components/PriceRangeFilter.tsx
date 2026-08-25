@@ -1,4 +1,4 @@
-import { SquareChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { useState } from "react";
 interface PriceRangeFilterProps {
   priceRange: [number, number];
@@ -6,14 +6,16 @@ interface PriceRangeFilterProps {
 }
 
 const PriceRangeFilter = ({ priceRange, onApply }: PriceRangeFilterProps) => {
-  const [minInput, setMinInput] = useState(String(priceRange[0]));
+  const [minInput, setMinInput] = useState(
+    priceRange[0] === 0 ? "" : String(priceRange[0]),
+  );
   const [maxInput, setMaxInput] = useState(
     priceRange[1] === Infinity ? "" : String(priceRange[1]),
   );
   const [error, setError] = useState<string | null>(null);
 
   function handleApply() {
-    const min = Number(minInput);
+    const min = minInput.trim() === "" ? 0 : Number(minInput);
     const max = maxInput.trim() === "" ? Infinity : Number(maxInput);
 
     if (isNaN(min) || isNaN(max)) {
@@ -32,32 +34,36 @@ const PriceRangeFilter = ({ priceRange, onApply }: PriceRangeFilterProps) => {
     onApply(min, max);
   }
   return (
-    <div>
-      <h2 className="font-medium mb-2">Price</h2>
+    <div className="mt-1">
+      <h2 className="font-heading text-sm font-semibold text-gray-800 uppercase tracking-wide mb-1 ">
+        Price
+      </h2>
       <div className="flex items-center gap-1">
         <input
           type="number"
           placeholder="min"
           value={minInput}
           onChange={(e) => setMinInput(e.target.value)}
-          className="w-16 border rounded px-2 py-1 text-sm"
+          className="w-16 border border-gray-400  rounded-sm px-3 py-1 text-sm  outline-none  "
           aria-label="Minimum price"
         />
-        <span>-</span>
+        <span className="text-gray-400 text-sm">–</span>
         <input
           type="number"
           placeholder="max"
           value={maxInput}
           onChange={(e) => setMaxInput(e.target.value)}
-          className="w-16 border rounded px-2 py-1 text-sm"
+          className="w-16 border border-gray-400  rounded-sm px-2 py-1 text-sm outline-none"
           aria-label="Minimum price"
         />
         <button
           type="button"
           onClick={handleApply}
           aria-label="Apply price filter"
+          className="w-8 h-8  flex items-center justify-center rounded-sm bg-[#F85606] text-white 
+          hover:bg-[#4096FF]   shrink-0"
         >
-          <SquareChevronRight size={20} aria-hidden="true" />
+          <ChevronRight size={20} aria-hidden="true" />
         </button>
       </div>
       {error && (
