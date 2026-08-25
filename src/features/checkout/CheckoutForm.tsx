@@ -1,6 +1,5 @@
 import { useState, type FormEvent } from "react";
 import Input from "../../components/ui/Input";
-import Button from "../../components/ui/Button";
 
 export interface ShippingDetails {
   fullName: string;
