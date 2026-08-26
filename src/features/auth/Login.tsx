@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Logo from "../../components/layout/Logo";
 import Input from "../../components/ui/Input";
 import Button from "../../components/ui/Button";
-import React, { useState, type ChangeEvent } from "react";
+import React, { useState } from "react";
 
 const Login = () => {
   const [formData, setFormData] = useState({
