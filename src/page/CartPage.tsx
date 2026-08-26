@@ -1,5 +1,3 @@
-//  list the cartitem , show cartsummary
-
 import { useState } from "react";
 import CartItems from "../features/Cart/components/CartItems";
 import CartSummary from "../features/Cart/components/CartSummary";

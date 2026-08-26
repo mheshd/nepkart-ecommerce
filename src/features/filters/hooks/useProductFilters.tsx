@@ -1,5 +1,3 @@
-// Owns all filter/sort state + the actual filtering/sorting computation (useMemo).
-
 import { useMemo, useState } from "react";
 import type { Product } from "../../../types/productType";
 

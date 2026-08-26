@@ -1,5 +1,3 @@
-// Shows one product — gallery, info, size/color selection, AddToCartButton, Buy button.
-
 import { useNavigate, useParams } from "react-router-dom";
 import ProductGallery from "../features/product/components/ProductGallery";
 import { getProductBySlug } from "../services/productService";

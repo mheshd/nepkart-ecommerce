@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-// 	Image carousel, thumbnails on the detail page.
 interface ProductGalleryProps {
   images: string[];
   name: string;

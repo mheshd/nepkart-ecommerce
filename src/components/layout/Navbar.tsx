@@ -2,10 +2,8 @@ import CartIcon from "../../features/Cart/components/CartIcon";
 import Logo from "./Logo";
 import CategoryList from "../../features/category/CategoryList";
 import SearchBar from "../../features/search/components/SearchBar";
-
 import { useState } from "react";
 import { LayoutGrid } from "lucide-react";
-
 import AccountMenu from "./AccountMenu";
 
 const Navbar = () => {

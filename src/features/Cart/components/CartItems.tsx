@@ -1,4 +1,3 @@
-// 	One row in the cart — image, name, quantity control, remove button.
 import type { CartItem } from "../../../types/cartType";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { useCartContext } from "../context/CartContext";

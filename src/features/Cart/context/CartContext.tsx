@@ -1,5 +1,3 @@
-// provide a cartitem + dispatch the whole app
-
 import { createContext, useContext, useEffect, useReducer } from "react";
 import type { CartItem } from "../../../types/cartType";
 import { CartReducer } from "./cartReducer";
