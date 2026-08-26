@@ -1,5 +1,3 @@
-// all <Route> definitions in one place
-
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Homepage from "../page/Homepage";
 import ProductListingPage from "../page/ProductListingPage";
@@ -9,6 +7,8 @@ import { CartProvider } from "../features/Cart/context/CartContext";
 import CartPage from "../page/CartPage";
 import CheckoutPage from "../page/CheckoutPage";
 import AppLayout from "../components/layout/AppLayout";
+import LoginPage from "../page/LoginPage";
+import SignupPage from "../page/SignupPage";
 const AppRoutes = () => {
   return (
     <CartProvider>
@@ -28,6 +28,8 @@ const AppRoutes = () => {
             />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </AppLayout>
