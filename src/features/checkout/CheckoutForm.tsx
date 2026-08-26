@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import React, { useState } from "react";
 import Input from "../../components/ui/Input";
 
 export interface ShippingDetails {
@@ -35,7 +35,7 @@ const CheckoutForm = ({ onSubmit }: CheckoutFormProps) => {
   const [province, setProvince] = useState("");
   const [error, setError] = useState<string | null>(null);
 
-  function handleSubmit(e: FormEvent) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (!fullName.trim() || !phone.trim() || !address.trim() || !city.trim()) {
