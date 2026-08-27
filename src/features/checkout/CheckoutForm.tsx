@@ -1,5 +1,6 @@
-import { useState, type FormEvent } from "react";
+import React, { useState } from "react";
 import Input from "../../components/ui/Input";
+import Button from "../../components/ui/Button";
 
 export interface ShippingDetails {
   fullName: string;
@@ -35,7 +36,7 @@ const CheckoutForm = ({ onSubmit }: CheckoutFormProps) => {
   const [province, setProvince] = useState("");
   const [error, setError] = useState<string | null>(null);
 
-  function handleSubmit(e: FormEvent) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (!fullName.trim() || !phone.trim() || !address.trim() || !city.trim()) {
@@ -170,6 +171,8 @@ const CheckoutForm = ({ onSubmit }: CheckoutFormProps) => {
           {error}
         </p>
       )}
+
+      <Button type="submit">submit</Button>
     </form>
   );
 };
