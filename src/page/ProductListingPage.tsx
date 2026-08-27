@@ -11,6 +11,7 @@ import FilterSidebar from "../features/filters/components/FilterSidebar";
 import { useProductFilter } from "../features/filters/hooks/useProductFilters";
 import SortDropdown from "../features/filters/components/SortDropdown";
 import { useState } from "react";
+import Button from "../components/ui/Button";
 
 const ProductListingPage = () => {
   const { categorySlug, brandSlug } = useParams<{
@@ -108,13 +109,13 @@ const ProductListingPage = () => {
 
             <FilterSidebar {...filterProps} />
 
-            <button
+            <Button
               type="button"
               onClick={() => setShowMobileFilters(false)}
-              className="w-full mt-6 bg-[#F85606] text-white py-2.5 rounded-md text-sm font-medium"
+              className="w-full mt-6 bg-[#F85606] py-2.5  font-medium"
             >
               Show {filteredProducts.length} results
-            </button>
+            </Button>
           </div>
         </div>
       )}

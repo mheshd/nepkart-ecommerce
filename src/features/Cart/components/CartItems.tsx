@@ -3,6 +3,7 @@ import { formatCurrency } from "../../../utils/formatCurrency";
 import { useCartContext } from "../context/CartContext";
 import Checkbox from "../../../components/ui/Checkbox";
 import { Trash2 } from "lucide-react";
+import Button from "../../../components/ui/Button";
 
 interface CartItemProps {
   item: CartItem;
@@ -57,26 +58,27 @@ const CartItems = ({ item, checked, onToggleSelect }: CartItemProps) => {
 
         <div className="flex items-center  mt-2 ">
           <div className="flex items-center gap-5 ">
-            <button
+            <Button
               type="button"
+              variant="pill"
               onClick={decreaseQuantity}
               disabled={item.quantity <= 1}
               aria-label="Decrease quantity"
-              className=" text-lg font-body bg-gray-100 rounded-full px-2 cursor-pointer "
             >
               −
-            </button>
+            </Button>
             <span aria-live="polite" className="text-lg font-body ">
               {item.quantity}
             </span>
-            <button
+            <Button
               type="button"
+              variant="pill"
               onClick={increaseQuantity}
               aria-label="Increase quantity"
               className=" text-lg font-body bg-gray-100  rounded-full px-2 cursor-pointer"
             >
               +
-            </button>
+            </Button>
           </div>
         </div>
       </div>

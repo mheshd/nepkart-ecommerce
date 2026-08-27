@@ -69,7 +69,7 @@ const ProductDetailPage = () => {
                   variant={selectedSize === size ? "primary" : "secondary"}
                   type="button"
                   onClick={() => setSelectedSize(size)}
-                  className={`px-3 py-1.5 border  ${
+                  className={`px-2 py-1.5 border  ${
                     selectedSize === size ? "border-black" : "border-gray-300"
                   }`}
                 >
@@ -106,29 +106,29 @@ const ProductDetailPage = () => {
             Quantity
           </p>
           <div className="flex items-center border border-gray-100 rounded-md  overflow-hidden">
-            <button
+            <Button
               type="button"
+              variant="ghost"
               onClick={decreaseQuantity}
               disabled={quantity <= 1}
               aria-label="Decrease quantity"
-              className="w-9 h-9 flex items-center justify-center text-lg text-gray-600 hover:bg-gray-50 active:bg-gray-100 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
             >
               -
-            </button>
+            </Button>
             <span
               aria-live="polite"
               className="w-10 text-center text-sm font-semibold text-gray-800 border-x border-gray-200"
             >
               {quantity}
             </span>
-            <button
+            <Button
               type="button"
+              variant="ghost"
               onClick={increaseQuantity}
               aria-label="Increase quantity"
-              className="w-9 h-9 flex items-center justify-center text-lg text-gray-600 hover:bg-gray-50 active:bg-gray-100 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
             >
               +
-            </button>
+            </Button>
           </div>
         </div>
 
