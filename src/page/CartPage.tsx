@@ -1,5 +1,3 @@
-//  list the cartitem , show cartsummary
-
 import { useState } from "react";
 import CartItems from "../features/Cart/components/CartItems";
 import CartSummary from "../features/Cart/components/CartSummary";
@@ -30,11 +28,9 @@ const CartPage = () => {
   }
 
   const allKeys = cartItems.map(getItemKey);
-  console.log(allKeys);
 
   const allSelected =
     allKeys.length > 0 && allKeys.every((key) => selectedKeys.has(key));
-  console.log(allSelected);
 
   function toggleSelectAll() {
     setSelectedKeys(allSelected ? new Set() : new Set(allKeys));

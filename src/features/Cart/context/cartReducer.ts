@@ -1,5 +1,3 @@
-// ADD_TO_CART , REMOVE_FROM_CART, UPDATE_QUANTITY, CLEAR_CART
-
 import type { CartItem, CartAction } from "../../../types/cartType";
 
 export function CartReducer(state: CartItem[], action: CartAction) {
