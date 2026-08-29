@@ -24,7 +24,7 @@ const SearchSuggestions = ({
           <button
             type="button"
             onClick={() => onSelect(product)}
-            className="block w-full text-left px-3 py-2 hover:bg-gray-50 cursor-pointer"
+            className="block w-full text-left px-3 py-2 border-b border-gray-200 hover:bg-gray-50 cursor-pointer"
           >
             {product.name}
           </button>

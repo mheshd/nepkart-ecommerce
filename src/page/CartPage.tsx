@@ -28,11 +28,9 @@ const CartPage = () => {
   }
 
   const allKeys = cartItems.map(getItemKey);
-  console.log(allKeys);
 
   const allSelected =
     allKeys.length > 0 && allKeys.every((key) => selectedKeys.has(key));
-  console.log(allSelected);
 
   function toggleSelectAll() {
     setSelectedKeys(allSelected ? new Set() : new Set(allKeys));

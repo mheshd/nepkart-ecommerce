@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Input from "../../components/ui/Input";
+import Button from "../../components/ui/Button";
 
 export interface ShippingDetails {
   fullName: string;
@@ -170,6 +171,8 @@ const CheckoutForm = ({ onSubmit }: CheckoutFormProps) => {
           {error}
         </p>
       )}
+
+      <Button type="submit">submit</Button>
     </form>
   );
 };
