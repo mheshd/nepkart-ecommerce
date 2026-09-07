@@ -54,7 +54,7 @@ const PriceRangeFilter = ({ priceRange, onApply }: PriceRangeFilterProps) => {
           value={maxInput}
           onChange={(e) => setMaxInput(e.target.value)}
           className="w-16 border border-gray-400  rounded-sm px-2 py-1 text-sm outline-none"
-          aria-label="Minimum price"
+          aria-label="Maximum price"
         />
         <button
           type="button"

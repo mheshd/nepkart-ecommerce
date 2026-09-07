@@ -95,6 +95,7 @@ const CartItems = ({ item, checked, onToggleSelect }: CartItemProps) => {
         <button
           type="button"
           onClick={handleRemove}
+          aria-label="remove-button"
           className=" text-gray-400 hover:text-red-600 cursor-pointer"
         >
           <Trash2 size={20} />
