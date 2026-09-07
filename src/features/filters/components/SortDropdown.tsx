@@ -40,7 +40,7 @@ const SortDropdown = ({ sortOrder, onChange }: SortDropdownProps) => {
         aria-haspopup="listbox"
         aria-expanded={open}
         className="font-body flex items-center gap-1.5 rounded-md border border-gray-300 px-4 py-2 
-        text-[13px] text-gray-700 bg-white hover:border-gray-400 transition-colors"
+          text-[13px] text-gray-700 bg-white hover:border-gray-400 transition-colors"
       >
         {current.label}
         <ChevronDown
