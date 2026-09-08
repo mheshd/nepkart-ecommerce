@@ -18,7 +18,7 @@ const BrandGrid = ({ brands }: BrandGridProps) => {
           >
             <img
               src={brand.logo}
-              alt={brand.label}
+              alt=""
               className=" w-full aspect-square object-cover  "
             />
             <span className=" font-body ">{brand.label}</span>
