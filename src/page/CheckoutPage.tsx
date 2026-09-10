@@ -1,10 +1,8 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import CheckoutForm, {
-  type ShippingDetails,
-} from "../features/checkout/CheckoutForm";
 import type { CartItem } from "../types/cartType";
 import { useCartContext } from "../features/Cart/context/CartContext";
 import OrderSummary from "../features/checkout/OrderSummary";
+import CheckoutSection from "../features/checkout/CheckoutSection ";
 
 interface CheckoutState {
   buyNowItem?: CartItem;
@@ -21,13 +19,12 @@ const CheckoutPage = () => {
     ? [state.buyNowItem]
     : (state?.checkoutItems ?? cartItems);
 
-  function handlePlaceOrder(details: ShippingDetails) {
-    console.log("Order placed:", { details, items });
+  function handlePlaceOrder() {
     if (!state?.buyNowItem) {
       clearCart();
     }
 
-    navigate("/");
+    navigate("/payment");
   }
 
   if (items.length === 0) {
@@ -37,9 +34,9 @@ const CheckoutPage = () => {
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
       <div className="md:col-span-2">
-        <CheckoutForm onSubmit={handlePlaceOrder} />
+        <CheckoutSection items={items} />
       </div>
-      <OrderSummary items={items} />
+      <OrderSummary items={items} onSubmit={handlePlaceOrder} />
     </div>
   );
 };

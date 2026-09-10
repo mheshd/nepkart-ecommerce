@@ -1,0 +1,192 @@
+import React, { useState } from "react";
+import Input from "../../components/ui/Input";
+import Button from "../../components/ui/Button";
+import type { Address } from "../../types/addressType";
+
+const provinces = [
+  "Koshi Province",
+  "Madhesh Province",
+  "Bagmati Province",
+  "Gandaki Province",
+  "Lumbini Province",
+  "Karnali Province",
+  "Sudurpashchim Province",
+];
+
+const labelClass = "block text-sm mb-1 text-gray-600";
+
+interface AddressFormProps {
+  initialValues?: Omit<Address, "id">;
+  onSubmit: (address: Omit<Address, "id">) => void;
+  onCancel: () => void;
+}
+
+const AddressForm = ({
+  initialValues,
+  onSubmit,
+  onCancel,
+}: AddressFormProps) => {
+  const [fullName, setFullName] = useState(initialValues?.fullName ?? "");
+  const [phone, setPhone] = useState(initialValues?.phone ?? "");
+  const [email, setEmail] = useState(initialValues?.email ?? "");
+  const [address, setAddress] = useState(initialValues?.address ?? "");
+  const [city, setCity] = useState(initialValues?.city ?? "");
+  const [postalCode, setPostalCode] = useState(initialValues?.postalCode ?? "");
+  const [province, setProvince] = useState(initialValues?.province ?? "");
+  const [error, setError] = useState<string | null>(null);
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+
+    if (
+      !fullName.trim() ||
+      !phone.trim() ||
+      !address.trim() ||
+      !city.trim() ||
+      !province
+    ) {
+      setError("Please fill in all required fields.");
+      return;
+    }
+    const phonePattern = /^[0-9+\-\s]{7,15}$/;
+    if (!phonePattern.test(phone)) {
+      setError("Enter a valid phone number.");
+      return;
+    }
+
+    setError(null);
+    onSubmit({ fullName, phone, email, address, city, postalCode, province });
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="bg-white px-4">
+      <h2 className="font-heading mb-3">
+        {initialValues ? "Edit Address" : "Add Address"}
+      </h2>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-4 mb-5">
+        <div>
+          <label htmlFor="fullName" className={labelClass}>
+            Full Name *
+          </label>
+          <Input
+            id="fullName"
+            placeholder="e.g. Ram Sharma"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            required
+            className="placeholder:text-gray-600"
+          />
+        </div>
+        <div>
+          <label htmlFor="phone" className={labelClass}>
+            Phone number *
+          </label>
+          <Input
+            id="phone"
+            type="tel"
+            placeholder="98XXXXXXXX"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            required
+            className="placeholder:text-gray-600"
+          />
+        </div>
+        <div>
+          <label htmlFor="email" className={labelClass}>
+            Email (optional)
+          </label>
+          <Input
+            id="email"
+            type="email"
+            placeholder="you@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="placeholder:text-gray-600"
+          />
+        </div>
+        <div>
+          <label htmlFor="province" className={labelClass}>
+            Province *
+          </label>
+          <select
+            id="province"
+            value={province}
+            onChange={(e) => setProvince(e.target.value)}
+            required
+            className="w-full border rounded-md px-3 py-2 text-sm text-gray-600 focus:outline-none focus:border-[#F85606] focus:ring-1 focus:ring-[#F85606]"
+          >
+            <option value="">Select province</option>
+            {provinces.map((p) => (
+              <option key={p} value={p}>
+                {p}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label htmlFor="address" className={labelClass}>
+            Address *
+          </label>
+          <Input
+            id="address"
+            placeholder="Street, ward, landmark"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            required
+            className="placeholder:text-gray-600"
+          />
+        </div>
+        <div>
+          <label htmlFor="city" className={labelClass}>
+            City *
+          </label>
+          <Input
+            id="city"
+            placeholder="e.g. Kathmandu"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            required
+            className="placeholder:text-gray-600"
+          />
+        </div>
+        <div>
+          <label htmlFor="postalCode" className={labelClass}>
+            Postal code (optional)
+          </label>
+          <Input
+            id="postalCode"
+            placeholder="e.g. 44600"
+            value={postalCode}
+            onChange={(e) => setPostalCode(e.target.value)}
+            className="placeholder:text-gray-600"
+          />
+        </div>
+      </div>
+
+      {error && (
+        <p role="alert" className="text-sm text-red-500 mb-3">
+          {error}
+        </p>
+      )}
+
+      <div className="flex items-center justify-end gap-3 mt-2 pb-2">
+        <Button
+          type="button"
+          onClick={onCancel}
+          className="py-2 bg-gray-100 text-black hover:bg-gray-200"
+        >
+          Cancel
+        </Button>
+        <Button
+          type="submit"
+          className="py-2 bg-[#59B5EC] hover:bg-[#3FA5E3] text-white  "
+        >
+          {initialValues ? "Save Changes" : "Add Address"}
+        </Button>
+      </div>
+    </form>
+  );
+};
+
+export default AddressForm;
