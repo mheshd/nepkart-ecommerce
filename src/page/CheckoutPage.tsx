@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import type { CartItem } from "../types/cartType";
 import { useCartContext } from "../features/Cart/context/CartContext";
 import OrderSummary from "../features/checkout/OrderSummary";
-import CheckoutSection from "../features/checkout/CheckoutSection ";
+import CheckoutSection from "../features/checkout/CheckoutSection";
 
 interface CheckoutState {
   buyNowItem?: CartItem;

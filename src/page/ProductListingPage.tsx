@@ -76,7 +76,7 @@ const ProductListingPage = () => {
                 <SlidersHorizontal size={14} />
                 Filters
               </button>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm  text-gray-500">
                 {filteredProducts.length} products
               </p>
             </div>
@@ -95,7 +95,7 @@ const ProductListingPage = () => {
             onClick={() => setShowMobileFilters(false)}
             aria-hidden="true"
           />
-          <div className="relative ml-auto w-4/5 max-w-xs bg-white h-full overflow-y-auto p-4 ">
+          <div className="relative ml-auto w-4/5 max-w-xs bg-white h-full overflow-y-auto p-4">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-heading font-semibold">Filters</h2>
               <button

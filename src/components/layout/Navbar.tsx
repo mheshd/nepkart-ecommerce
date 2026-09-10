@@ -2,14 +2,33 @@ import CartIcon from "../../features/Cart/components/CartIcon";
 import Logo from "./Logo";
 import CategoryList from "../../features/category/CategoryList";
 import SearchBar from "../../features/search/components/SearchBar";
-
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LayoutGrid } from "lucide-react";
-
 import AccountMenu from "./AccountMenu";
 
 const Navbar = () => {
   const [showMobileCategories, setShowMobileCategories] = useState(false);
+  const mobileCategoryRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        mobileCategoryRef.current &&
+        !mobileCategoryRef.current.contains(event.target as Node)
+      ) {
+        setShowMobileCategories(false);
+      }
+    };
+
+    if (showMobileCategories) {
+      document.addEventListener("mousedown", handleOutsideClick);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [showMobileCategories]);
+
   return (
     <nav className=" fixed top-0 left-0 w-full bg-gray-50  z-50  ">
       <div className=" flex items-center  justify-between gap-5 px-5 py-1   max-w-6xl mx-auto ">
@@ -37,6 +56,7 @@ const Navbar = () => {
 
       {showMobileCategories && (
         <div
+          ref={mobileCategoryRef}
           className="sm:hidden fixed bottom-19 left-0 w-full bg-white border-t border-gray-200
          shadow-2xl max-h-[60vh] overflow-y-auto z-40"
         >

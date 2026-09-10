@@ -4,7 +4,7 @@ import type { CartItem } from "../../types/cartType";
 import type { Address } from "../../types/addressType";
 import BillingAddress from "./BillingAddress";
 import CheckoutItems from "./CheckoutItems";
-import AddressForm from "./AddressForm ";
+import AddressForm from "./AddressForm";
 import Model from "../../components/ui/Model";
 
 interface CheckoutSectionProps {
