@@ -1,5 +1,4 @@
-// features/checkout/CheckoutSection.tsx
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
 import type { CartItem } from "../../types/cartType";
 import type { Address } from "../../types/addressType";
 import BillingAddress from "./BillingAddress";
@@ -9,26 +8,25 @@ import Model from "../../components/ui/Model";
 
 interface CheckoutSectionProps {
   items: CartItem[];
+  addresses: Address[];
+  setAddresses: React.Dispatch<React.SetStateAction<Address[]>>;
+  selectedAddressId: string | null;
+  setSelectedAddressId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-const CheckoutSection = ({ items }: CheckoutSectionProps) => {
-  const [addresses, setAddresses] = useState<Address[]>(() => {
-    const stored = localStorage.getItem("checkout");
-    return stored ? JSON.parse(stored) : [];
-  });
-  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(
-    null,
-  );
+const CheckoutSection = ({
+  items,
+  addresses,
+  setAddresses,
+  selectedAddressId,
+  setSelectedAddressId,
+}: CheckoutSectionProps) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingAddress, setEditingAddress] = useState<Address | null>(null);
 
   function selectAddress(id: string) {
     setSelectedAddressId(id);
   }
-
-  useEffect(() => {
-    localStorage.setItem("checkout", JSON.stringify(addresses));
-  }, [addresses]);
 
   function handleAddOrEditAddress(data: Omit<Address, "id">) {
     if (editingAddress) {

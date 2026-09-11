@@ -78,17 +78,19 @@ const BillingAddress = ({
                 >
                   <Pencil size={16} />
                 </button>
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    onDelete(addr.id);
-                  }}
-                  aria-label={`Delete address for ${addr.fullName}`}
-                  className="text-gray-400 hover:text-red-600"
-                >
-                  <Trash2 size={16} />
-                </button>
+                {addresses.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onDelete(addr.id);
+                    }}
+                    aria-label={`Delete address for ${addr.fullName}`}
+                    className="text-gray-400 hover:text-red-600"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                )}
               </div>
             </label>
           ))}
