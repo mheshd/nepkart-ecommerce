@@ -39,6 +39,7 @@ const ProductListingPage = () => {
     setMinRating,
     sortOrder,
     setSortOrder,
+    availableSizes,
   } = useProductFilter(products);
 
   const filterProps = {
@@ -47,7 +48,7 @@ const ProductListingPage = () => {
     onToggleBrand: toggleBrand,
     onToggleSize: toggleSize,
     selectedSizes,
-    sizes: getSizeList(products),
+    sizes: availableSizes,
     priceRange,
     onApply: setPriceFilter,
     minRating,
