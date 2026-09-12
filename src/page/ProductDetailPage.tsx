@@ -53,11 +53,16 @@ const ProductDetailPage = () => {
 
   return (
     <main
-      className="max-w-6xl mx-auto px-4 py-5  grid grid-cols-1 md:grid-cols-2 gap-10 bg-gray-50 
-       rounded-lg "
+      className="max-w-6xl mx-auto px-4 py-6   grid grid-cols-1 md:grid-cols-2 gap-5 bg-gray-50 
+       rounded-lg"
     >
-      <ProductGallery images={product.images} name={product.name} />
-      <div className=" ">
+      {/* Product gallery */}
+      <div className=" relative min-w-0 overflow-visible z-20">
+        <ProductGallery images={product.images} name={product.name} />
+      </div>
+
+      {/* Product information */}
+      <div>
         <ProductInfo product={product} />
         {needSize && (
           <div className="mt-4">
