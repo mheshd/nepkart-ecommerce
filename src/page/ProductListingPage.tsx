@@ -3,7 +3,6 @@ import {
   getBrandList,
   getProductsByBrand,
   getProductsByCategory,
-  getSizeList,
 } from "../services/productService";
 import { SlidersHorizontal, X } from "lucide-react";
 import ProductGrid from "../features/product/components/ProductGrid";
