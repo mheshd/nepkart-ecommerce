@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import { X } from "lucide-react";
 
 interface ModelProps {
@@ -8,10 +8,17 @@ interface ModelProps {
 }
 
 const Model = ({ children, onClose, className = "" }: ModelProps) => {
+  useEffect(() => {
+    // prevent outside scrolling
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
       <div
-        className={`relative w-full max-w-3xl rounded-lg bg-white shadow-xl py-8 px-2 ${className}`}
+        className={`relative w-full max-w-3xl  max-h-[90vh] overflow-y-auto rounded-lg bg-white shadow-xl py-8 px-2 ${className}`}
       >
         <button
           type="button"
