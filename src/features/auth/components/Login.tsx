@@ -14,12 +14,12 @@ interface LoginProps {
 
 const Login = ({ onSwitchToSignup, onSuccess }: LoginProps) => {
   const [formData, setFormData] = useState({
-    identifier: "",
+    email: "",
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<{
-    identifier?: string;
+    email?: string;
     password?: string;
   }>({});
 
@@ -35,15 +35,14 @@ const Login = ({ onSwitchToSignup, onSuccess }: LoginProps) => {
   const validate = () => {
     const emailRegex =
       /^(?=.{1,254}$)(?=.{1,64}@)[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+$/;
-    const phoneRegex = /^(97|98)\d{8}$/;
 
     const newErrors: typeof errors = {};
-    const identifier = formData.identifier.trim();
+    const email = formData.email.trim();
 
-    if (!identifier) {
-      newErrors.identifier = "Please enter your email or phone number.";
-    } else if (!emailRegex.test(identifier) && !phoneRegex.test(identifier)) {
-      newErrors.identifier = "Enter a valid email or phone number.";
+    if (!email) {
+      newErrors.email = "Please enter your email or phone number.";
+    } else if (!emailRegex.test(email)) {
+      newErrors.email = "Enter a valid email .";
     }
 
     if (!formData.password) {
@@ -76,28 +75,26 @@ const Login = ({ onSwitchToSignup, onSuccess }: LoginProps) => {
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4" noValidate>
           <div>
-            <label htmlFor="identifier" className="sr-only">
-              Email or phone number
+            <label htmlFor="email" className="sr-only">
+              Email
             </label>
             <Input
-              id="identifier"
+              id="email"
               type="text"
-              placeholder="Enter email or phone number"
-              value={formData.identifier}
+              placeholder="Enter email "
+              value={formData.email}
               onChange={handleChange}
-              aria-invalid={!!errors.identifier}
-              aria-describedby={
-                errors.identifier ? "identifier-error" : undefined
-              }
+              aria-invalid={!!errors.email}
+              aria-describedby={errors.email ? "email-error" : undefined}
               className="placeholder:text-gray-500"
             />
-            {errors.identifier && (
+            {errors.email && (
               <p
-                id="identifier-error"
+                id="email-error"
                 role="alert"
                 className="mt-1 text-sm text-red-500"
               >
-                {errors.identifier}
+                {errors.email}
               </p>
             )}
           </div>
