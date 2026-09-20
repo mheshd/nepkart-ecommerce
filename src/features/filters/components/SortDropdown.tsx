@@ -29,7 +29,10 @@ const SortDropdown = ({ sortOrder, onChange }: SortDropdownProps) => {
   const current = options.find((o) => o.value === sortOrder) ?? options[0];
 
   return (
-    <div ref={ref} className="relative flex items-center gap-2 ">
+    <div
+      ref={ref}
+      className="relative flex  flex-col sm:flex-row items-center gap-2 "
+    >
       <span className="font-body text-sm text-gray-500 whitespace-nowrap">
         Sort by
       </span>
@@ -39,7 +42,7 @@ const SortDropdown = ({ sortOrder, onChange }: SortDropdownProps) => {
         onClick={() => setOpen((prev) => !prev)}
         aria-haspopup="listbox"
         aria-expanded={open}
-        className="font-body flex items-center gap-1.5 rounded-md border border-gray-300 px-4 py-2 
+        className="font-body flex  items-center gap-1.5 rounded-md border border-gray-300 px-4 py-2 
           text-[13px] text-gray-700 bg-white hover:border-gray-400 transition-colors"
       >
         {current.label}

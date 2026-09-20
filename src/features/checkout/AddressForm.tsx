@@ -1,20 +1,7 @@
 import React, { useState } from "react";
 import Input from "../../components/ui/Input";
 import Button from "../../components/ui/Button";
-
-export interface ShippingDetails {
-  fullName: string;
-  phone: string;
-  email: string;
-  address: string;
-  city: string;
-  postalCode: string;
-  province: string;
-}
-
-interface CheckoutFormProps {
-  onSubmit: (details: ShippingDetails) => void;
-}
+import type { Address } from "../../types/addressType";
 
 const provinces = [
   "Koshi Province",
@@ -26,20 +13,38 @@ const provinces = [
   "Sudurpashchim Province",
 ];
 
-const CheckoutForm = ({ onSubmit }: CheckoutFormProps) => {
-  const [fullName, setFullName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [postalCode, setPostalCode] = useState("");
-  const [province, setProvince] = useState("");
+const labelClass = "block text-sm mb-1 text-gray-600";
+
+interface AddressFormProps {
+  initialValues?: Omit<Address, "id">;
+  onSubmit: (address: Omit<Address, "id">) => void;
+  onCancel: () => void;
+}
+
+const AddressForm = ({
+  initialValues,
+  onSubmit,
+  onCancel,
+}: AddressFormProps) => {
+  const [fullName, setFullName] = useState(initialValues?.fullName ?? "");
+  const [phone, setPhone] = useState(initialValues?.phone ?? "");
+  const [email, setEmail] = useState(initialValues?.email ?? "");
+  const [address, setAddress] = useState(initialValues?.address ?? "");
+  const [city, setCity] = useState(initialValues?.city ?? "");
+  const [postalCode, setPostalCode] = useState(initialValues?.postalCode ?? "");
+  const [province, setProvince] = useState(initialValues?.province ?? "");
   const [error, setError] = useState<string | null>(null);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    if (!fullName.trim() || !phone.trim() || !address.trim() || !city.trim()) {
+    if (
+      !fullName.trim() ||
+      !phone.trim() ||
+      !address.trim() ||
+      !city.trim() ||
+      !province
+    ) {
       setError("Please fill in all required fields.");
       return;
     }
@@ -52,13 +57,12 @@ const CheckoutForm = ({ onSubmit }: CheckoutFormProps) => {
     setError(null);
     onSubmit({ fullName, phone, email, address, city, postalCode, province });
   }
-  const labelClass = "block text-sm mb-1 text-gray-600";
+
   return (
-    <form
-      onSubmit={handleSubmit}
-      className=" max-w-6xl mx-auto  py-8 bg-white shadow-2xs px-4"
-    >
-      <h2 className="font-heading mb-3">Shipping details</h2>
+    <form onSubmit={handleSubmit} className="bg-white px-4">
+      <h2 className="font-heading mb-3">
+        {initialValues ? "Edit Address" : "Add Address"}
+      </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-4 mb-5">
         <div>
@@ -74,7 +78,6 @@ const CheckoutForm = ({ onSubmit }: CheckoutFormProps) => {
             className="placeholder:text-gray-600"
           />
         </div>
-
         <div>
           <label htmlFor="phone" className={labelClass}>
             Phone number *
@@ -89,7 +92,6 @@ const CheckoutForm = ({ onSubmit }: CheckoutFormProps) => {
             className="placeholder:text-gray-600"
           />
         </div>
-
         <div>
           <label htmlFor="email" className={labelClass}>
             Email (optional)
@@ -103,7 +105,6 @@ const CheckoutForm = ({ onSubmit }: CheckoutFormProps) => {
             className="placeholder:text-gray-600"
           />
         </div>
-
         <div>
           <label htmlFor="province" className={labelClass}>
             Province *
@@ -123,7 +124,6 @@ const CheckoutForm = ({ onSubmit }: CheckoutFormProps) => {
             ))}
           </select>
         </div>
-
         <div>
           <label htmlFor="address" className={labelClass}>
             Address *
@@ -137,7 +137,6 @@ const CheckoutForm = ({ onSubmit }: CheckoutFormProps) => {
             className="placeholder:text-gray-600"
           />
         </div>
-
         <div>
           <label htmlFor="city" className={labelClass}>
             City *
@@ -151,7 +150,6 @@ const CheckoutForm = ({ onSubmit }: CheckoutFormProps) => {
             className="placeholder:text-gray-600"
           />
         </div>
-
         <div>
           <label htmlFor="postalCode" className={labelClass}>
             Postal code (optional)
@@ -172,9 +170,23 @@ const CheckoutForm = ({ onSubmit }: CheckoutFormProps) => {
         </p>
       )}
 
-      <Button type="submit">submit</Button>
+      <div className="flex items-center justify-end gap-3 mt-2 pb-2">
+        <Button
+          type="button"
+          onClick={onCancel}
+          className="py-2 bg-gray-100 text-black hover:bg-gray-200"
+        >
+          Cancel
+        </Button>
+        <Button
+          type="submit"
+          className="py-2 bg-[#59B5EC] hover:bg-[#3FA5E3] text-white  "
+        >
+          {initialValues ? "Save Changes" : "Add Address"}
+        </Button>
+      </div>
     </form>
   );
 };
 
-export default CheckoutForm;
+export default AddressForm;

@@ -6,13 +6,14 @@ import type { CartItem as CartItemType } from "../types/cartType";
 import { ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
 import Checkbox from "../components/ui/Checkbox";
+import { Trash2 } from "lucide-react";
 
 function getItemKey(item: CartItemType) {
   return `${item.productId}-${item.size}-${item.color}`;
 }
 
 const CartPage = () => {
-  const { cartItems } = useCartContext();
+  const { cartItems, removeFromCart } = useCartContext();
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
 
   function toggleSelect(key: string) {
@@ -45,6 +46,13 @@ const CartPage = () => {
     0,
   );
 
+  function handleRemoveSelected() {
+    selectedItems.forEach((item) => {
+      removeFromCart(item.productId, item.size, item.color);
+    });
+    setSelectedKeys(new Set());
+  }
+
   if (cartItems.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center text-center px-4 py-24">
@@ -71,12 +79,20 @@ const CartPage = () => {
           Shopping Cart
         </h1>
 
-        <div className="flex items-center gap-2 pb-2 border-b border-gray-100 mb-2">
+        <div className=" bg-white px-4 py-2 flex items-center justify-between gap-2 pb-2 border-b border-gray-100 mb-2">
           <Checkbox
             checked={allSelected}
             onChange={toggleSelectAll}
             label={`Select all (${cartItems.length})`}
           />
+
+          <button
+            type="button"
+            onClick={handleRemoveSelected}
+            className="text-sm flex items-center text-gray-600 hover:text-yellow-600 font-medium"
+          >
+            <Trash2 size={16} /> Delete
+          </button>
         </div>
 
         {cartItems.map((item) => {

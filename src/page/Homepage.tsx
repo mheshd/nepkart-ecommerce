@@ -1,3 +1,4 @@
+import Loading from "../components/ui/Loading";
 import BrandGrid from "../features/brand/BrandGrid";
 import CategoryGrid from "../features/category/CategoryGrid";
 import ProductGrid from "../features/product/components/ProductGrid";
@@ -13,7 +14,7 @@ const Homepage = () => {
   if (loading) {
     return (
       <div className="w-full max-w-7xl mx-auto py-8 text-center text-gray-500">
-        Loading...
+        <Loading />
       </div>
     );
   }

@@ -10,6 +10,16 @@ export function useProductFilter(products: Product[]) {
     null,
   );
 
+  const productsMatchingBrand = useMemo(() => {
+    return selectedBrands.length === 0
+      ? products
+      : products.filter((p) => selectedBrands.includes(p.brand));
+  }, [products, selectedBrands]);
+
+  const availableSizes = useMemo(() => {
+    return [...new Set(productsMatchingBrand.flatMap((p) => p.sizes))];
+  }, [productsMatchingBrand]);
+
   const filteredProducts = useMemo(() => {
     let result = products.filter((p) => {
       const matchesBrand =
@@ -37,9 +47,29 @@ export function useProductFilter(products: Product[]) {
   ]);
 
   function toggleBrand(brand: string) {
-    setSelectedBrands((prev) =>
-      prev.includes(brand) ? prev.filter((b) => b !== brand) : [...prev, brand],
-    );
+    setSelectedBrands((prev) => {
+      const next = prev.includes(brand)
+        ? prev.filter((b) => b !== brand)
+        : [...prev, brand];
+      return next;
+    });
+
+    // drop any selected size that no longer exists for the new brand selection
+    setSelectedSizes((prevSizes) => {
+      const stillValidSizes = new Set(
+        products
+          .filter((p) => {
+            const nextBrands = selectedBrands.includes(brand)
+              ? selectedBrands.filter((b) => b !== brand)
+              : [...selectedBrands, brand];
+
+            return nextBrands.length === 0 || nextBrands.includes(p.brand);
+          })
+          .flatMap((p) => p.sizes),
+      );
+
+      return prevSizes.filter((s) => stillValidSizes.has(s));
+    });
   }
 
   function toggleSize(size: string) {
@@ -58,6 +88,7 @@ export function useProductFilter(products: Product[]) {
     filteredProducts,
     toggleSize,
     selectedSizes,
+    availableSizes,
     priceRange,
     setPriceFilter,
     minRating,

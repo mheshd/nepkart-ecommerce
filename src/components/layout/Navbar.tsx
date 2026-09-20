@@ -2,12 +2,37 @@ import CartIcon from "../../features/Cart/components/CartIcon";
 import Logo from "./Logo";
 import CategoryList from "../../features/category/CategoryList";
 import SearchBar from "../../features/search/components/SearchBar";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LayoutGrid } from "lucide-react";
 import AccountMenu from "./AccountMenu";
+import Model from "../ui/Model";
+import Login from "../../features/auth/components/Login";
+import SignUp from "../../features/auth/components/Signup";
 
 const Navbar = () => {
   const [showMobileCategories, setShowMobileCategories] = useState(false);
+  const [authMode, setAuthMode] = useState<"login" | "signup" | null>(null);
+  const mobileCategoryRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        mobileCategoryRef.current &&
+        !mobileCategoryRef.current.contains(event.target as Node)
+      ) {
+        setShowMobileCategories(false);
+      }
+    };
+
+    if (showMobileCategories) {
+      document.addEventListener("mousedown", handleOutsideClick);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [showMobileCategories]);
+
   return (
     <nav className=" fixed top-0 left-0 w-full bg-gray-50  z-50  ">
       <div className=" flex items-center  justify-between gap-5 px-5 py-1   max-w-6xl mx-auto ">
@@ -20,7 +45,11 @@ const Navbar = () => {
 
         <div className=" hidden sm:flex gap-10 items-center relative   ">
           <CartIcon />
-          <AccountMenu variant="desktop" />
+          <AccountMenu
+            variant="desktop"
+            onOpenLogin={() => setAuthMode("login")}
+            onOpenSingup={() => setAuthMode("signup")}
+          />
         </div>
       </div>
 
@@ -35,6 +64,7 @@ const Navbar = () => {
 
       {showMobileCategories && (
         <div
+          ref={mobileCategoryRef}
           className="sm:hidden fixed bottom-19 left-0 w-full bg-white border-t border-gray-200
          shadow-2xl max-h-[60vh] overflow-y-auto z-40"
         >
@@ -59,8 +89,27 @@ const Navbar = () => {
           <CartIcon />
           Cart
         </div>
-        <AccountMenu variant="mobile" />
+        <AccountMenu
+          variant="mobile"
+          onOpenLogin={() => setAuthMode("login")}
+          onOpenSingup={() => setAuthMode("signup")}
+        />
       </div>
+      {authMode && (
+        <Model onClose={() => setAuthMode(null)} className="  max-w-md">
+          {authMode === "login" ? (
+            <Login
+              onSwitchToSignup={() => setAuthMode("signup")}
+              onSuccess={() => setAuthMode(null)}
+            />
+          ) : (
+            <SignUp
+              onSwitchToLogin={() => setAuthMode("login")}
+              onSuccess={() => setAuthMode(null)}
+            />
+          )}
+        </Model>
+      )}
     </nav>
   );
 };
