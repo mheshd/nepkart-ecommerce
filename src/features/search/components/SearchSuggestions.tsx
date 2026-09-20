@@ -1,3 +1,4 @@
+import Loading from "../../../components/ui/Loading";
 import type { Product } from "../../../types/productType";
 
 interface SearchSuggestionsProps {
@@ -18,7 +19,11 @@ const SearchSuggestions = ({
       className=" absolute top-full left-0 w-full  bg-gray-50 border-t border-gray-100
      shadow-md z-10 p-2"
     >
-      {loading && <li className="px-3 py-2">Loading...</li>}
+      {loading && (
+        <li className="px-3 py-2">
+          <Loading />
+        </li>
+      )}
       {product.map((product) => (
         <li key={product.slug}>
           <button

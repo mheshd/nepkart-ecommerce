@@ -4,11 +4,12 @@ import { formatCurrency } from "../../utils/formatCurrency";
 
 interface OrderSummaryProps {
   items: CartItem[];
+  onSubmit: () => void;
 }
 
 const SHIPPING_FEE = 50;
 
-const OrderSummary = ({ items }: OrderSummaryProps) => {
+const OrderSummary = ({ items, onSubmit }: OrderSummaryProps) => {
   const subtotal = items.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0,
@@ -58,6 +59,7 @@ const OrderSummary = ({ items }: OrderSummaryProps) => {
           <span className="text-[#F57224]">{formatCurrency(total)}</span>
         </div>
         <Button
+          onClick={onSubmit}
           type="submit"
           className=" w-full  px-8 py-2.5 font-medium bg-[#F57224]"
         >
