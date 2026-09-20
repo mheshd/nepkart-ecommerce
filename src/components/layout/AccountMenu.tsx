@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { MdAccountCircle } from "react-icons/md";
 import { LogIn, UserPlus, ChevronDown } from "lucide-react";
 
