@@ -1,13 +1,18 @@
-import { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useRef, useEffect } from "react";
 import { MdAccountCircle } from "react-icons/md";
 import { LogIn, UserPlus, ChevronDown } from "lucide-react";
 
 interface AccountMenuProps {
   variant?: "desktop" | "mobile";
+  onOpenLogin: () => void;
+  onOpenSingup: () => void;
 }
 
-const AccountMenu = ({ variant = "desktop" }: AccountMenuProps) => {
+const AccountMenu = ({
+  variant = "desktop",
+  onOpenSingup,
+  onOpenLogin,
+}: AccountMenuProps) => {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -20,10 +25,6 @@ const AccountMenu = ({ variant = "desktop" }: AccountMenuProps) => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  function handleSelect() {
-    setOpen(false);
-  }
 
   const isMobile = variant === "mobile";
   return (
@@ -54,23 +55,27 @@ const AccountMenu = ({ variant = "desktop" }: AccountMenuProps) => {
             isMobile ? "bottom-full mb-2" : "top-full mt-2"
           }`}
         >
-          <Link
-            to="/login"
-            onClick={handleSelect}
+          <button
+            onClick={() => {
+              setOpen(false);
+              onOpenLogin();
+            }}
             className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-gray-50 transition-colors"
           >
             <LogIn size={16} className="text-gray-500" />
             Login
-          </Link>
+          </button>
           <div className="border-t border-gray-100" />
-          <Link
-            to="/signup"
-            onClick={handleSelect}
+          <button
+            onClick={() => {
+              setOpen(false);
+              onOpenSingup();
+            }}
             className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-gray-50 transition-colors"
           >
             <UserPlus size={16} className="text-gray-500" />
             Sign up
-          </Link>
+          </button>
         </div>
       )}
     </div>
