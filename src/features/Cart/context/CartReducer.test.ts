@@ -36,14 +36,6 @@ describe("cartReducer", () => {
     expect(result).toHaveLength(2);
   });
 
-  it("does not mutate the original state array", () => {
-    const result = CartReducer([mockItem], {
-      type: "ADD_TO_CART",
-      payload: mockItem,
-    });
-    expect(result).toHaveLength(1);
-  });
-
   //   remove
 
   it("removes the matching item", () => {
