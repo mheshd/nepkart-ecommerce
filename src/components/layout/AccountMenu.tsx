@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import { MdAccountCircle } from "react-icons/md";
 import { LogIn, UserPlus, ChevronDown, LogOut } from "lucide-react";
 import { useAuth } from "../../features/auth/context/AuthContext";
-import { useNavigate } from "react-router-dom";
 
 interface AccountMenuProps {
   variant?: "desktop" | "mobile";
@@ -19,7 +18,7 @@ const AccountMenu = ({
 
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
+
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
@@ -83,7 +82,6 @@ const AccountMenu = ({
             <button
               onClick={() => {
                 handleLogout();
-                navigate("/");
               }}
               className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-gray-50 transition-colors"
             >
