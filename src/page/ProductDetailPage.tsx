@@ -6,10 +6,12 @@ import ProductInfo from "../features/product/components/ProductInfo";
 import { useState } from "react";
 import AddToCartButton from "../features/Cart/components/AddToCartButton";
 import Button from "../components/ui/Button";
+import { useAuth } from "../features/auth/context/AuthContext";
 
 const ProductDetailPage = () => {
   const { productSlug } = useParams<{ productSlug: string }>();
   const navigate = useNavigate();
+  const { user, openAuthModal } = useAuth();
 
   const product = productSlug ? getProductBySlug(productSlug) : undefined;
   const [selectedSize, setSelectedSize] = useState<string | null>(
@@ -35,6 +37,11 @@ const ProductDetailPage = () => {
 
   function handleBuyNow() {
     if (!canBuy || !product) return;
+
+    if (!user) {
+      openAuthModal("login");
+      return;
+    }
 
     navigate("/checkout", {
       state: {
