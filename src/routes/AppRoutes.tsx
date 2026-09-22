@@ -10,7 +10,7 @@ import AppLayout from "../components/layout/AppLayout";
 import LoginPage from "../page/LoginPage";
 import SignupPage from "../page/SignupPage";
 import { AuthProvider } from "../features/auth/context/AuthContext";
-import ForgotPasswordPage from "../features/auth/components/ForgotPasswordPage ";
+import ForgotPasswordPage from "../features/auth/components/ForgotPasswordPage";
 import ResetPasswordPage from "../features/auth/components/ResetPasswordPage";
 
 const AppRoutes = () => {

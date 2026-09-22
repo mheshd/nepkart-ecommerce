@@ -6,25 +6,28 @@ import Button from "../../../components/ui/Button";
 import React, { useState } from "react";
 import Logo from "../../../components/layout/Logo";
 import { Eye, EyeClosed } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
 
 interface SignUpProps {
   onSwitchToLogin?: () => void;
-  onSuccess?: () => void;
 }
 
-const SignUp = ({ onSwitchToLogin, onSuccess }: SignUpProps) => {
+const SignUp = ({ onSwitchToLogin }: SignUpProps) => {
+  const { signUp, signInWithGoogle, signInWithFacebook } = useAuth();
+
   const [formData, setFormData] = useState({
     email: "",
-    phone: "",
     password: "",
   });
   const [errors, setErrors] = useState<{
     email?: string;
-    phone?: string;
     password?: string;
+    form?: string;
   }>({});
 
   const [showPassword, setShowPassword] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [signedUpEmail, setSignedUpEmail] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -37,7 +40,7 @@ const SignUp = ({ onSwitchToLogin, onSuccess }: SignUpProps) => {
   const validate = () => {
     const emailRegex =
       /^(?=.{1,254}$)(?=.{1,64}@)[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+$/;
-    const phoneRegex = /^(97|98)\d{8}$/;
+
     const passwordRegex =
       /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
 
@@ -46,9 +49,7 @@ const SignUp = ({ onSwitchToLogin, onSuccess }: SignUpProps) => {
     if (!emailRegex.test(formData.email.trim())) {
       newErrors.email = "Please enter a valid email address.";
     }
-    if (!phoneRegex.test(formData.phone.trim())) {
-      newErrors.phone = "Please enter a valid phone number.";
-    }
+
     if (!passwordRegex.test(formData.password)) {
       newErrors.password =
         "Password must be at least 8 characters and contain an uppercase letter, lowercase letter, number, and symbol";
@@ -56,7 +57,7 @@ const SignUp = ({ onSwitchToLogin, onSuccess }: SignUpProps) => {
 
     return newErrors;
   };
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const newErrors = validate();
@@ -64,9 +65,38 @@ const SignUp = ({ onSwitchToLogin, onSuccess }: SignUpProps) => {
 
     if (Object.keys(newErrors).length > 0) return;
 
-    onSuccess?.();
+    setSubmitting(true);
+    const { error } = await signUp(formData.email.trim(), formData.password);
+    setSubmitting(false);
+
+    if (error) {
+      setErrors({ form: error });
+      return;
+    }
+
+    setSignedUpEmail(formData.email.trim());
   };
 
+  if (signedUpEmail) {
+    return (
+      <div className="flex items-center justify-center px-4 py-8 text-center">
+        <div className="w-full max-w-md">
+          <Logo />
+          <p className="mt-4 font-body text-gray-700">
+            We sent a confirmation link to <strong>{signedUpEmail}</strong>.
+            Click it to activate your account, then log in.
+          </p>
+          <Button
+            type="button"
+            onClick={() => onSwitchToLogin?.()}
+            className="mt-4 w-full py-1 bg-[#F85606] font-semibold hover:bg-[#FF6A1A]"
+          >
+            Back to Login
+          </Button>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="   flex items-center justify-center px-4 py-2">
       <div className="w-full max-w-md bg-white rounded-2xl  px-4 py-4 ">
@@ -90,6 +120,8 @@ const SignUp = ({ onSwitchToLogin, onSuccess }: SignUpProps) => {
               placeholder="Enter your email"
               value={formData.email}
               onChange={handleChange}
+              aria-invalid={!!errors.email}
+              aria-describedby={errors.email ? "email-error" : undefined}
               className="placeholder:text-gray-500"
             />
             {errors.email && (
@@ -102,35 +134,7 @@ const SignUp = ({ onSwitchToLogin, onSuccess }: SignUpProps) => {
               </p>
             )}
           </div>
-          <div>
-            <label htmlFor="phone" className="sr-only">
-              Phone number
-            </label>
-            <div className="flex">
-              <div className="flex items-center px-3 bg-gray-100 border border-gray-300 rounded-l-md">
-                +977
-              </div>
 
-              <Input
-                id="phone"
-                type="tel"
-                required
-                placeholder="9812345678"
-                value={formData.phone}
-                onChange={handleChange}
-                className="rounded-l-none"
-              />
-            </div>
-            {errors.phone && (
-              <p
-                id="email-phone"
-                role="alert"
-                className="mt-1 text-sm text-red-500"
-              >
-                {errors.phone}
-              </p>
-            )}
-          </div>
           <div>
             <label htmlFor="password" className="sr-only">
               Password
@@ -143,6 +147,10 @@ const SignUp = ({ onSwitchToLogin, onSuccess }: SignUpProps) => {
                 placeholder="Create a password"
                 value={formData.password}
                 onChange={handleChange}
+                aria-invalid={!!errors.password}
+                aria-describedby={
+                  errors.password ? "password-error" : undefined
+                }
                 className="placeholder:text-gray-500"
               />
 
@@ -166,11 +174,18 @@ const SignUp = ({ onSwitchToLogin, onSuccess }: SignUpProps) => {
             )}
           </div>
 
+          {errors.form && (
+            <p role="alert" className="text-sm text-red-500 text-center">
+              {errors.form}
+            </p>
+          )}
+
           <Button
             type="submit"
+            disabled={submitting}
             className="w-full py-1  bg-[#F85606]  font-semibold  hover:bg-[#FF6A1A]"
           >
-            Sign Up
+            {submitting ? "Creating account..." : "Sign Up"}
           </Button>
         </form>
 
@@ -204,12 +219,18 @@ const SignUp = ({ onSwitchToLogin, onSuccess }: SignUpProps) => {
 
         {/* Social Login */}
         <div className=" flex items-center justify-center gap-8">
-          <button className=" flex items-center gap-2 text-gray-500 cursor-pointer font-body">
+          <button
+            onClick={() => signInWithGoogle()}
+            className=" flex items-center gap-2 text-gray-500 cursor-pointer font-body"
+          >
             <FcGoogle size={22} />
             Google
           </button>
 
-          <button className=" flex items-center gap-2 text-gray-500 cursor-pointer font-body   ">
+          <button
+            onClick={() => signInWithFacebook()}
+            className=" flex items-center gap-2 text-gray-500 cursor-pointer font-body   "
+          >
             <FaFacebook size={22} className="text-blue-600" />
             Facebook
           </button>
