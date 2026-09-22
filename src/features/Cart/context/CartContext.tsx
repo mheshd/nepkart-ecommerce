@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import type { CartItem } from "../../../types/cartType";
 import { CartReducer } from "./cartReducer";
+import { useAuth } from "../../auth/context/AuthContext";
 
 interface CartContextType {
   cartItems: CartItem[];
@@ -21,27 +22,31 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | null>(null);
 
-const CART_STORAGE_KEY = "cart";
-
-function loadCartFromStorage(initial: CartItem[]): CartItem[] {
+function loadCartFromStorage(key: string, initial: CartItem[]): CartItem[] {
   try {
-    const stored = localStorage.getItem(CART_STORAGE_KEY);
+    const stored = localStorage.getItem(key);
     return stored ? JSON.parse(stored) : initial;
   } catch {
     return initial;
   }
 }
 
-export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [cartItems, dispatch] = useReducer(
-    CartReducer,
-    [],
-    loadCartFromStorage,
+function CartStateProvider({
+  storageKey,
+  children,
+}: {
+  storageKey: string | null;
+  children: React.ReactNode;
+}) {
+  const [cartItems, dispatch] = useReducer(CartReducer, [], () =>
+    storageKey ? loadCartFromStorage(storageKey, []) : [],
   );
 
   useEffect(() => {
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems));
-  }, [cartItems]);
+    if (!storageKey) return;
+
+    localStorage.setItem(storageKey, JSON.stringify(cartItems));
+  }, [cartItems, storageKey]);
 
   const addToCart = (item: CartItem) => {
     dispatch({ type: "ADD_TO_CART", payload: item });
@@ -82,6 +87,19 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     >
       {children}
     </CartContext.Provider>
+  );
+}
+
+export function CartProvider({ children }: { children: React.ReactNode }) {
+  const { user, loading } = useAuth();
+
+  const remountKey = loading ? "auth-loading" : (user?.id ?? "guest");
+  const storageKey = loading ? null : user ? `cart${user.id}` : null;
+
+  return (
+    <CartStateProvider key={remountKey} storageKey={storageKey}>
+      {children}
+    </CartStateProvider>
   );
 }
 
