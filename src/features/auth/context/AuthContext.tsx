@@ -4,6 +4,7 @@ import { supabase } from "../../../lib/supabaseClient";
 import Model from "../../../components/ui/Model";
 import SignUp from "../components/Signup";
 import Login from "../components/Login";
+import { useNavigate } from "react-router-dom";
 
 interface AuthContextType {
   user: User | null;
@@ -34,6 +35,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -91,6 +94,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signOut = async () => {
     await supabase.auth.signOut();
+    navigate("/");
   };
 
   const requestPasswordReset = async (email: string) => {
