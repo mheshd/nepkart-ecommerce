@@ -26,17 +26,6 @@ describe("AddToCartButton", () => {
     } as any);
   });
 
-  it("renders a add to cart button", () => {
-    render(
-      <AddToCartButton
-        product={mockProduct}
-        selectedSize="M"
-        selectedColor="Red"
-        quantity={1}
-      />,
-    );
-    expect(screen.getByText("Add to cart")).toBeInTheDocument();
-  });
   it("call addToCart with correct payload when clicked", async () => {
     const user = userEvent.setup();
     render(

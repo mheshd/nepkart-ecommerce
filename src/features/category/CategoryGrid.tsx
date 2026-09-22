@@ -19,7 +19,7 @@ const CategoryGrid = ({ categories }: CategoryGridProps) => {
           >
             <img
               src={category.image}
-              alt={category.label}
+              alt=""
               className=" w-full aspect-square object-cover  "
             />
             <span className=" font-body ">{category.label}</span>

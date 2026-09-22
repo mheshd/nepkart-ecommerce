@@ -54,7 +54,8 @@ const SearchBar = () => {
       />
       <button
         onClick={handleSearchSubmit}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400  cursor-pointer"
+        aria-label="search"
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 lex h-10 w-10 items-center justify-center cursor-pointer"
       >
         <Search size={20} />
       </button>

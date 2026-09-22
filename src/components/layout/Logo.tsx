@@ -3,7 +3,7 @@ const Logo = () => {
   const navigate = useNavigate();
   return (
     <img
-      src={"/public/logo.png"}
+      src={"/logo.png"}
       alt="Nepcart"
       className="w-15 cursor-pointer  "
       onClick={() => navigate("/")}

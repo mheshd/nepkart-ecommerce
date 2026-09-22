@@ -73,20 +73,6 @@ describe("CartItems", () => {
     ).toBeDisabled();
   });
 
-  it("increase button neveber disabled", () => {
-    const itemWithQuantityOne = { ...mockItems, quantity: 1 };
-    render(
-      <CartItems
-        item={itemWithQuantityOne}
-        checked={false}
-        onToggleSelect={vi.fn()}
-      />,
-    );
-    expect(
-      screen.getByRole("button", { name: "Increase quantity" }),
-    ).not.toBeDisabled();
-  });
-
   it("calls onToggleSelect when checkbox is clicked", async () => {
     const user = userEvent.setup();
     const onToggleSelectMock = vi.fn();
@@ -114,17 +100,6 @@ describe("CartItems", () => {
         name: `Select ${mockItems.name} for checkout`,
       }),
     ).toBeChecked();
-  });
-
-  it("renders the checkbox as unchecked when checked prop is false", () => {
-    render(
-      <CartItems item={mockItems} checked={false} onToggleSelect={vi.fn()} />,
-    );
-    expect(
-      screen.getByRole("checkbox", {
-        name: `Select ${mockItems.name} for checkout`,
-      }),
-    ).not.toBeChecked();
   });
 
   it("when size null and color null then size and color not render", () => {

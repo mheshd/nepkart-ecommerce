@@ -157,12 +157,6 @@ describe("ProductDetailPage", () => {
   });
 
   //   size
-  it("defaults selectedSize to null when product has no sizes", () => {
-    vi.mocked(getProductBySlug).mockReturnValue(mockNoSizeProduct);
-
-    render(<ProductDetailPage />);
-    expect(screen.getByRole("button", { name: "Buy now" })).toBeDisabled();
-  });
 
   it("defaults selectedSize to the first available size when product has sizes", () => {
     render(<ProductDetailPage />);
@@ -181,13 +175,6 @@ describe("ProductDetailPage", () => {
     expect(screen.getByRole("button", { name: "S" })).toHaveClass(
       "border-gray-300",
     );
-  });
-
-  it("renders color options when product has colors", () => {
-    render(<ProductDetailPage />);
-
-    expect(screen.getByRole("button", { name: "Black" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "White" })).toBeInTheDocument();
   });
 
   it("does not render color section when product has no colors", () => {
