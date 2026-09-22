@@ -43,10 +43,10 @@ const Login = ({ onSwitchToSignup, onSuccess }: LoginProps) => {
     const newErrors: typeof errors = {};
     const email = formData.email.trim();
 
-    if (!identifier) {
-      newErrors.identifier = "Please enter your email or phone number.";
-    } else if (!emailRegex.test(identifier) && !phoneRegex.test(identifier)) {
-      newErrors.identifier = "Enter a valid email or phone number.";
+    if (!email) {
+      newErrors.email = "Please enter your email ";
+    } else if (!emailRegex.test(email)) {
+      newErrors.email = "Enter a valid email ";
     }
 
     if (!formData.password) {
@@ -91,8 +91,8 @@ const Login = ({ onSwitchToSignup, onSuccess }: LoginProps) => {
             <Input
               id="email"
               type="text"
-              placeholder="Enter email or phone number"
-              value={formData.identifier}
+              placeholder="Enter email "
+              value={formData.email}
               onChange={handleChange}
               aria-invalid={!!errors.email}
               aria-describedby={errors.email ? "email-error" : undefined}
