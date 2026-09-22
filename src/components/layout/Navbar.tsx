@@ -5,13 +5,11 @@ import SearchBar from "../../features/search/components/SearchBar";
 import { useEffect, useRef, useState } from "react";
 import { LayoutGrid } from "lucide-react";
 import AccountMenu from "./AccountMenu";
-import Model from "../ui/Model";
-import Login from "../../features/auth/components/Login";
-import SignUp from "../../features/auth/components/Signup";
+import { useAuth } from "../../features/auth/context/AuthContext";
 
 const Navbar = () => {
   const [showMobileCategories, setShowMobileCategories] = useState(false);
-  const [authMode, setAuthMode] = useState<"login" | "signup" | null>(null);
+  const { openAuthModal } = useAuth();
   const mobileCategoryRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -47,8 +45,8 @@ const Navbar = () => {
           <CartIcon />
           <AccountMenu
             variant="desktop"
-            onOpenLogin={() => setAuthMode("login")}
-            onOpenSingup={() => setAuthMode("signup")}
+            onOpenLogin={() => openAuthModal("login")}
+            onOpenSingup={() => openAuthModal("signup")}
           />
         </div>
       </div>
@@ -91,25 +89,10 @@ const Navbar = () => {
         </div>
         <AccountMenu
           variant="mobile"
-          onOpenLogin={() => setAuthMode("login")}
-          onOpenSingup={() => setAuthMode("signup")}
+          onOpenLogin={() => openAuthModal("login")}
+          onOpenSingup={() => openAuthModal("signup")}
         />
       </div>
-      {authMode && (
-        <Model onClose={() => setAuthMode(null)} className="  max-w-md">
-          {authMode === "login" ? (
-            <Login
-              onSwitchToSignup={() => setAuthMode("signup")}
-              onSuccess={() => setAuthMode(null)}
-            />
-          ) : (
-            <SignUp
-              onSwitchToLogin={() => setAuthMode("login")}
-              onSuccess={() => setAuthMode(null)}
-            />
-          )}
-        </Model>
-      )}
     </nav>
   );
 };

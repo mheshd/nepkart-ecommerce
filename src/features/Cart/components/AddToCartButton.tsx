@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { X, CheckCircle } from "lucide-react";
 import type { Product } from "../../../types/productType";
 import { useCartContext } from "../context/CartContext";
+import { useAuth } from "../../auth/context/AuthContext";
 interface AddToCartButtonProps {
   product: Product;
   selectedSize: string | null;
@@ -16,6 +17,7 @@ const AddToCartButton = ({
   quantity,
 }: AddToCartButtonProps) => {
   const { addToCart } = useCartContext();
+  const { user, openAuthModal } = useAuth();
   const [showSuccess, setShowSuccess] = useState(false);
 
   const needsSize = product.sizes.length > 1 || product.sizes[0] !== "One Size";
@@ -23,6 +25,12 @@ const AddToCartButton = ({
 
   function handleClick() {
     if (!canAdd) return;
+
+    if (!user) {
+      openAuthModal("login");
+      return;
+    }
+
     addToCart({
       productId: product.id,
       name: product.name,
@@ -32,6 +40,7 @@ const AddToCartButton = ({
       color: selectedColor,
       quantity,
     });
+    setShowSuccess(true);
   }
 
   useEffect(() => {
@@ -55,23 +64,27 @@ const AddToCartButton = ({
         Add to cart
       </Button>
 
-      {showSuccess && (
-        <div className="fixed top-5 left-1/2 z-100 -translate-x-1/2">
-          <div className="flex min-w-75 items-center gap-3 rounded-md bg-white px-4 py-3 shadow-xl border border-gray-200">
-            <CheckCircle size={22} className="shrink-0 text-green-500" />
-            <p className="flex-1 text-sm font-medium text-gray-700">
-              Successfully added to cart
-            </p>
-            <button
-              type="button"
-              onClick={() => setShowSuccess(false)}
-              className="rounded-full p-1 text-gray-400 transition hover:bg-gray-100 hover:text-gray-700"
-              aria-label="Close notification"
-            >
-              <X size={18} />
-            </button>
-          </div>
-        </div>
+      {user && (
+        <>
+          {showSuccess && (
+            <div className="fixed top-5 left-1/2 z-100 -translate-x-1/2">
+              <div className="flex min-w-75 items-center gap-3 rounded-md bg-white px-4 py-3 shadow-xl border border-gray-200">
+                <CheckCircle size={22} className="shrink-0 text-green-500" />
+                <p className="flex-1 text-sm font-medium text-gray-700">
+                  Successfully added to cart
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setShowSuccess(false)}
+                  className="rounded-full p-1 text-gray-400 transition hover:bg-gray-100 hover:text-gray-700"
+                  aria-label="Close notification"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

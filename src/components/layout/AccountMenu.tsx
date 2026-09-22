@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { MdAccountCircle } from "react-icons/md";
-import { LogIn, UserPlus, ChevronDown } from "lucide-react";
+import { LogIn, UserPlus, ChevronDown, LogOut } from "lucide-react";
+import { useAuth } from "../../features/auth/context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 interface AccountMenuProps {
   variant?: "desktop" | "mobile";
@@ -13,9 +15,11 @@ const AccountMenu = ({
   onOpenSingup,
   onOpenLogin,
 }: AccountMenuProps) => {
+  const { user, loading, signOut } = useAuth();
+
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
@@ -27,6 +31,26 @@ const AccountMenu = ({
   }, []);
 
   const isMobile = variant === "mobile";
+
+  const handleLogout = async () => {
+    setOpen(false);
+    await signOut();
+  };
+
+  if (loading) {
+    return (
+      <div
+        className={
+          isMobile
+            ? "flex flex-col items-center text-xs gap-1 invisible"
+            : "flex items-center gap-1 text-sm invisible"
+        }
+      >
+        <MdAccountCircle size={isMobile ? 22 : 25} />
+        Account
+      </div>
+    );
+  }
   return (
     <div ref={menuRef} className="relative">
       <button
@@ -41,7 +65,7 @@ const AccountMenu = ({
         }
       >
         <MdAccountCircle size={isMobile ? 22 : 25} />
-        Account
+        <span className="truncate">{user ? user.email : "Account"}</span>
         {!isMobile && (
           <ChevronDown
             size={14}
@@ -55,27 +79,42 @@ const AccountMenu = ({
             isMobile ? "bottom-full mb-2" : "top-full mt-2"
           }`}
         >
-          <button
-            onClick={() => {
-              setOpen(false);
-              onOpenLogin();
-            }}
-            className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-gray-50 transition-colors"
-          >
-            <LogIn size={16} className="text-gray-500" />
-            Login
-          </button>
-          <div className="border-t border-gray-100" />
-          <button
-            onClick={() => {
-              setOpen(false);
-              onOpenSingup();
-            }}
-            className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-gray-50 transition-colors"
-          >
-            <UserPlus size={16} className="text-gray-500" />
-            Sign up
-          </button>
+          {user ? (
+            <button
+              onClick={() => {
+                handleLogout();
+                navigate("/");
+              }}
+              className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-gray-50 transition-colors"
+            >
+              <LogOut size={16} className="text-gray-500" />
+              Log out
+            </button>
+          ) : (
+            <>
+              <button
+                onClick={() => {
+                  setOpen(false);
+                  onOpenLogin();
+                }}
+                className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-gray-50 transition-colors"
+              >
+                <LogIn size={16} className="text-gray-500" />
+                Login
+              </button>
+              <div className="border-t border-gray-100" />
+              <button
+                onClick={() => {
+                  setOpen(false);
+                  onOpenSingup();
+                }}
+                className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-gray-50 transition-colors"
+              >
+                <UserPlus size={16} className="text-gray-500" />
+                Sign up
+              </button>
+            </>
+          )}
         </div>
       )}
     </div>

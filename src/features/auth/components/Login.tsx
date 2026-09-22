@@ -6,6 +6,7 @@ import Input from "../../../components/ui/Input";
 import Button from "../../../components/ui/Button";
 import React, { useState } from "react";
 import { Eye, EyeClosed } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
 
 interface LoginProps {
   onSwitchToSignup?: () => void;
@@ -13,14 +14,17 @@ interface LoginProps {
 }
 
 const Login = ({ onSwitchToSignup, onSuccess }: LoginProps) => {
+  const { signIn, signInWithGoogle, signInWithFacebook } = useAuth();
   const [formData, setFormData] = useState({
-    identifier: "",
+    email: "",
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [errors, setErrors] = useState<{
-    identifier?: string;
+    email?: string;
     password?: string;
+    form?: string;
   }>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,15 +39,14 @@ const Login = ({ onSwitchToSignup, onSuccess }: LoginProps) => {
   const validate = () => {
     const emailRegex =
       /^(?=.{1,254}$)(?=.{1,64}@)[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+$/;
-    const phoneRegex = /^(97|98)\d{8}$/;
 
     const newErrors: typeof errors = {};
-    const identifier = formData.identifier.trim();
+    const email = formData.email.trim();
 
-    if (!identifier) {
-      newErrors.identifier = "Please enter your email or phone number.";
-    } else if (!emailRegex.test(identifier) && !phoneRegex.test(identifier)) {
-      newErrors.identifier = "Enter a valid email or phone number.";
+    if (!email) {
+      newErrors.email = "Please enter your email .";
+    } else if (!emailRegex.test(email)) {
+      newErrors.email = "Enter a valid email.";
     }
 
     if (!formData.password) {
@@ -53,14 +56,20 @@ const Login = ({ onSwitchToSignup, onSuccess }: LoginProps) => {
     return newErrors;
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newErrors = validate();
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length > 0) return;
+    setSubmitting(true);
+    const { error } = await signIn(formData.email.trim(), formData.password);
+    setSubmitting(false);
+    if (error) {
+      setErrors({ form: error });
+      return;
+    }
 
-    console.log(formData);
     onSuccess?.();
   };
 
@@ -76,28 +85,26 @@ const Login = ({ onSwitchToSignup, onSuccess }: LoginProps) => {
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4" noValidate>
           <div>
-            <label htmlFor="identifier" className="sr-only">
-              Email or phone number
+            <label htmlFor="email" className="sr-only">
+              Email
             </label>
             <Input
-              id="identifier"
+              id="email"
               type="text"
-              placeholder="Enter email or phone number"
-              value={formData.identifier}
+              placeholder="Enter your email "
+              value={formData.email}
               onChange={handleChange}
-              aria-invalid={!!errors.identifier}
-              aria-describedby={
-                errors.identifier ? "identifier-error" : undefined
-              }
+              aria-invalid={!!errors.email}
+              aria-describedby={errors.email ? "email-error" : undefined}
               className="placeholder:text-gray-500"
             />
-            {errors.identifier && (
+            {errors.email && (
               <p
-                id="identifier-error"
+                id="email-error"
                 role="alert"
                 className="mt-1 text-sm text-red-500"
               >
-                {errors.identifier}
+                {errors.email}
               </p>
             )}
           </div>
@@ -138,10 +145,14 @@ const Login = ({ onSwitchToSignup, onSuccess }: LoginProps) => {
               </p>
             )}
           </div>
-
+          {errors.form && (
+            <p role="alert" className="text-sm text-red-500 text-center">
+              {errors.form}
+            </p>
+          )}
           <div className=" flex items-center justify-end">
             <Link
-              onClick={onSuccess}
+              onClick={() => onSuccess?.()}
               to="/forgot-password"
               className="text-sm font-medium font-body text-gray-600 hover:text-indigo-700"
             >
@@ -151,9 +162,10 @@ const Login = ({ onSwitchToSignup, onSuccess }: LoginProps) => {
 
           <Button
             type="submit"
+            disabled={submitting}
             className="w-full py-1  bg-[#F85606]  font-semibold  hover:bg-[#FF6A1A]"
           >
-            Login
+            {submitting ? "loging" : " Login"}
           </Button>
         </form>
 
@@ -187,12 +199,18 @@ const Login = ({ onSwitchToSignup, onSuccess }: LoginProps) => {
 
         {/* Social Login */}
         <div className="flex items-center justify-center gap-8">
-          <button className="   flex items-center gap-2 text-gray-500 cursor-pointer font-body">
+          <button
+            onClick={() => signInWithGoogle()}
+            className="   flex items-center gap-2 text-gray-500 cursor-pointer font-body"
+          >
             <FcGoogle size={22} />
             Google
           </button>
 
-          <button className="  flex items-center gap-2 text-gray-500 cursor-pointer font-body">
+          <button
+            onClick={() => signInWithFacebook()}
+            className="  flex items-center gap-2 text-gray-500 cursor-pointer font-body"
+          >
             <FaFacebook size={22} className="text-blue-600" />
             Facebook
           </button>

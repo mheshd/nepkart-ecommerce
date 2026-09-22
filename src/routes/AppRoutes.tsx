@@ -9,32 +9,43 @@ import CheckoutPage from "../page/CheckoutPage";
 import AppLayout from "../components/layout/AppLayout";
 import LoginPage from "../page/LoginPage";
 import SignupPage from "../page/SignupPage";
+import { AuthProvider } from "../features/auth/context/AuthContext";
+import ForgotPasswordPage from "../features/auth/components/ForgotPasswordPage";
+import ResetPasswordPage from "../features/auth/components/ResetPasswordPage";
+
 const AppRoutes = () => {
   return (
-    <CartProvider>
-      <BrowserRouter>
-        <AppLayout>
-          <Routes>
-            <Route path="/" element={<Homepage />} />
+    <BrowserRouter>
+      <AuthProvider>
+        <CartProvider>
+          <AppLayout>
+            <Routes>
+              <Route path="/" element={<Homepage />} />
 
-            <Route
-              path="/category/:categorySlug"
-              element={<ProductListingPage />}
-            />
-            <Route path="/brands/:brandSlug" element={<ProductListingPage />} />
-            <Route
-              path="/product/:productSlug"
-              element={<ProductDetailPage />}
-            />
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/checkout" element={<CheckoutPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </AppLayout>
-      </BrowserRouter>
-    </CartProvider>
+              <Route
+                path="/category/:categorySlug"
+                element={<ProductListingPage />}
+              />
+              <Route
+                path="/brands/:brandSlug"
+                element={<ProductListingPage />}
+              />
+              <Route
+                path="/product/:productSlug"
+                element={<ProductDetailPage />}
+              />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/checkout" element={<CheckoutPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<SignupPage />} />
+              <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+              <Route path="/reset-password" element={<ResetPasswordPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </AppLayout>
+        </CartProvider>
+      </AuthProvider>
+    </BrowserRouter>
   );
 };
 
