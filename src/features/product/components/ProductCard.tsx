@@ -5,8 +5,9 @@ import { formatCurrency } from "../../../utils/formatCurrency";
 
 interface ProductCardProps {
   product: Product;
+  priority?: boolean;
 }
-const ProductCard = ({ product }: ProductCardProps) => {
+const ProductCard = ({ product, priority = false }: ProductCardProps) => {
   const badge = product.tags.includes("bestseller")
     ? "Bestseller"
     : product.tags.includes("new")
@@ -23,6 +24,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <img
           src={product.images[0]}
           alt={product.name}
+          width={400}
+          height={400}
+          loading={priority ? "eager" : "lazy"}
+          fetchPriority={priority ? "high" : "auto"}
           className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105"
         />
         {badge && (

@@ -39,7 +39,10 @@ const ProductGallery = ({ images, name }: ProductGalleryProps) => {
               <img
                 src={image}
                 alt=""
+                loading="lazy"
                 aria-hidden="true"
+                width={80}
+                height={80}
                 className="w-full h-full object-cover"
               />
             </button>
@@ -59,6 +62,10 @@ const ProductGallery = ({ images, name }: ProductGalleryProps) => {
                   src={image}
                   alt={`${name} ${index + 1}`}
                   draggable={false}
+                  loading={index === 0 ? "eager" : "lazy"}
+                  fetchPriority={index === 0 ? "high" : "auto"}
+                  width={800}
+                  height={800}
                   className="w-full h-full object-contain select-none"
                 />
               </div>
